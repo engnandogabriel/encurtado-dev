@@ -1,4 +1,5 @@
 package com.encurtado_dev.domain.value_objects;
+import com.encurtado_dev.domain.Exception.InvalidParamError;
 
 public class LongURL {
     private static final String URL_REGEX =
@@ -11,10 +12,10 @@ public class LongURL {
 
     private String validate(String url) throws Exception {
         if (url == null || url.isEmpty()) {
-            throw new Exception("Deve ser fornecida uma URL");
+            throw new InvalidParamError("Deve ser fornecida uma URL");
         }
         if (!url.startsWith("http://") && !url.startsWith("https://")) {
-            throw new IllegalArgumentException("URL inválida. Deve começar com https:// ou http://");
+            throw new InvalidParamError("URL inválida. Deve começar com https:// ou http://");
         }
         return url;
     }
