@@ -14,9 +14,10 @@ public class UrlTest {
     @DisplayName("Should be created a new Url")
     void testCreate() throws Exception {
         String longUrl = "http://www.example.com";
+        String shortenedUrl = "http://shortenedUrl/abc";
         String hash = "someHash";
         String qrCode = "someQrCode";
-        Url url = Url.create(longUrl, hash, qrCode);
+        Url url = Url.create(longUrl,shortenedUrl, hash, qrCode);
         Assertions.assertNotNull(url.getUrlId());
         Assertions.assertEquals(longUrl, url.getLongUrl());
         Assertions.assertEquals(hash, url.getHash());
@@ -29,10 +30,11 @@ public class UrlTest {
     void testRestore() {
         String urlId = UUID.randomUUID().toString();
         String longUrl = "http://www.example.com";
+        String shortenedUrl = "http://shortenedUrl/abc";
         String hash = "someHash";
         String qrCode = "someQrCode";
         LocalDateTime createdAt = LocalDateTime.now();
-        Url url = Url.restore(urlId, longUrl, hash, qrCode, createdAt);
+        Url url = Url.restore(urlId, longUrl, shortenedUrl, hash, qrCode, createdAt);
         Assertions.assertEquals(urlId, url.getUrlId());
         Assertions.assertEquals(longUrl, url.getLongUrl());
         Assertions.assertEquals(hash, url.getHash());
