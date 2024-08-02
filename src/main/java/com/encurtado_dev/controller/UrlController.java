@@ -2,6 +2,7 @@ package com.encurtado_dev.controller;
 
 import com.encurtado_dev.application.UrlService;
 import com.encurtado_dev.domain.DTO.ShortenUrlDTO;
+import com.encurtado_dev.domain.HandlersService.HandlerDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -18,18 +19,16 @@ public class UrlController {
     }
 
     @PostMapping("/shorten")
-    public ResponseEntity<String> shorten(@RequestBody ShortenUrlDTO shortenUrlDTO, HttpServletRequest servletRequest){
+    public ResponseEntity<HandlerDTO> shorten(@RequestBody ShortenUrlDTO shortenUrlDTO, HttpServletRequest servletRequest){
         var localUrl = servletRequest.getRequestURL().toString().replace("shorten", "");
-        this.urlService.shorten(shortenUrlDTO, localUrl);
-        return ResponseEntity.ok("Created");
+        HandlerDTO output = this.urlService.shorten(shortenUrlDTO, localUrl);
+        return ResponseEntity.ok(output);
     }
     @GetMapping("/{hash}")
-    public ResponseEntity<String> getLink(@PathVariable(name = "hash") String hash){
-
-        String url = this.urlService.getLink(hash);
-        System.out.println(url);
+    public ResponseEntity<HandlerDTO> getLink(@PathVariable(name = "hash") String hash){
+        HandlerDTO output = this.urlService.getLink(hash);
         HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(URI.create(url));
+        headers.setLocation(URI.create(output.body().toString()));
         return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
     }
 }
