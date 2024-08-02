@@ -11,6 +11,7 @@ public class UrlModel {
     @Id
     private String urlId;
     private String longUrl;
+    private String shortenedUrl;
     private String hash;
     private String qrCode;
     private LocalDateTime createdAt;
@@ -18,9 +19,10 @@ public class UrlModel {
     public UrlModel() {
     }
 
-    public UrlModel(String urlId, String longUrl, String hash, String qrCode, LocalDateTime createdAt) {
+    public UrlModel(String urlId, String longUrl,String shortenedUrl, String hash, String qrCode, LocalDateTime createdAt) {
         this.urlId = urlId;
         this.longUrl = longUrl;
+        this.shortenedUrl = shortenedUrl;
         this.hash = hash;
         this.qrCode = qrCode;
         this.createdAt = createdAt;
@@ -36,6 +38,14 @@ public class UrlModel {
 
     public String getLongUrl() {
         return longUrl;
+    }
+
+    public String getShortenedUrl() {
+        return shortenedUrl;
+    }
+
+    public void setShortenedUrl(String shortenedUrl) {
+        this.shortenedUrl = shortenedUrl;
     }
 
     public void setLongUrl(String longUrl) {

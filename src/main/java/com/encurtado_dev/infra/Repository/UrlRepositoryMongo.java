@@ -18,7 +18,7 @@ public class UrlRepositoryMongo implements UrlRepository {
 
     @Override
     public void save(Url url) {
-        UrlModel urlModel = new UrlModel(url.getUrlId(), url.getLongUrl(), url.getHash(), url.getQrCode(), url.getCreatedAt());
+        UrlModel urlModel = new UrlModel(url.getUrlId(), url.getLongUrl(), url.getShortenedUrl(), url.getHash(), url.getQrCode(), url.getCreatedAt());
         this.mongoDB.save(urlModel);
     }
 
@@ -26,14 +26,14 @@ public class UrlRepositoryMongo implements UrlRepository {
     public Optional<Url> findById(String id) {
         UrlModel urlModel = this.mongoDB.findById(id).orElse(null);
         if(urlModel == null) return Optional.empty();
-        return Optional.of(Url.restore(urlModel.getUrlId(), urlModel.getLongUrl(), urlModel.getHash(), urlModel.getQrCode(), urlModel.getCreatedAt()));
+        return Optional.of(Url.restore(urlModel.getUrlId(), urlModel.getLongUrl(), urlModel.getShortenedUrl() ,urlModel.getHash(), urlModel.getQrCode(), urlModel.getCreatedAt()));
     }
 
     @Override
     public Optional<Url> findByHash(String hash) {
         UrlModel urlModel = this.mongoDB.findByHash(hash).orElse(null);
         if(urlModel == null) return Optional.empty();
-        return Optional.of(Url.restore(urlModel.getUrlId(), urlModel.getLongUrl(), urlModel.getHash(), urlModel.getQrCode(), urlModel.getCreatedAt()));
+        return Optional.of(Url.restore(urlModel.getUrlId(), urlModel.getLongUrl(), urlModel.getShortenedUrl(), urlModel.getHash(), urlModel.getQrCode(), urlModel.getCreatedAt()));
     }
 
     @Override
