@@ -22,13 +22,21 @@ public class UrlController {
     public ResponseEntity<HandlerDTO> shorten(@RequestBody ShortenUrlDTO shortenUrlDTO, HttpServletRequest servletRequest){
         var localUrl = servletRequest.getRequestURL().toString().replace("shorten", "");
         HandlerDTO output = this.urlService.shorten(shortenUrlDTO, localUrl);
-        return ResponseEntity.ok(output);
+        return ResponseEntity.status(output.status().value()).body(output);
     }
     @GetMapping("/{hash}")
     public ResponseEntity<HandlerDTO> getLink(@PathVariable(name = "hash") String hash){
         HandlerDTO output = this.urlService.getLink(hash);
         HttpHeaders headers = new HttpHeaders();
+        if(output.status().value() != 200){
+            return ResponseEntity.status(output.status()).body(output);
+        }
         headers.setLocation(URI.create(output.body().toString()));
         return ResponseEntity.status(HttpStatus.FOUND).headers(headers).build();
+    }
+    @GetMapping("/{hash}/data")
+    public ResponseEntity<HandlerDTO> getData(@PathVariable(name="hash") String hash){
+        HandlerDTO output = this.urlService.getDatas(hash);
+        return ResponseEntity.status(output.status().value()).body(output);
     }
 }
