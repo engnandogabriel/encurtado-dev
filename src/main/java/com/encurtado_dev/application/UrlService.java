@@ -49,4 +49,15 @@ public class UrlService {
             return new Handlers<>().badRquest(e);
         }
     }
+    public HandlerDTO getDatas(String hash){
+        try {
+           Url url = this.urlRepository.findByHash(hash).orElse(null);
+            if(url == null) return new Handlers<>().notFound(new NotFoundError("URL não encontrada"));
+            return  new Handlers<>().success(url);
+        }catch (RuntimeException e) {
+            return new Handlers<>().servrError(e);
+        } catch (Exception e) {
+            return new Handlers<>().badRquest(e);
+        }
+    }
 }
