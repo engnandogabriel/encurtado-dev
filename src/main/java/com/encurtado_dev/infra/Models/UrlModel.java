@@ -75,4 +75,5 @@ public class UrlModel {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
 }
